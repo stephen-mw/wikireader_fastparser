@@ -242,7 +242,7 @@ func (w *Worker) startWorker() {
 		}
 
 		// We will temporarily swap the URL link symbols so we don't parse that
-		p.Revision.Text.Text = strings.Replace(p.Revision.Text.Text, "[[", `<SPEC_START>`, -1)
+		p.Revision.Text.Text = strings.ReplaceAll(p.Revision.Text.Text, "[[", `<SPEC_START>`)
 		p.Revision.Text.Text = strings.ReplaceAll(p.Revision.Text.Text, `]]`, `<SPEC_END>`)
 
 		cmd := exec.Command(w.ParseScript)
