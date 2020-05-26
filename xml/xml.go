@@ -235,7 +235,7 @@ func (w *Worker) startWorker() {
 		if strings.HasPrefix(p.Revision.Text.Text, "#REDIRECT") {
 			output, err := xml.Marshal(p)
 			if err != nil {
-				log.Fatal(err)
+				panic(err)
 			}
 			w.OutText <- output
 			continue
@@ -254,7 +254,8 @@ func (w *Worker) startWorker() {
 
 		clean, err := cmd.CombinedOutput()
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("error parsing title %s. Skipping", p.Title)
+			continue
 		}
 
 		// Reverse the url text changes
@@ -264,7 +265,7 @@ func (w *Worker) startWorker() {
 
 		output, err := xml.MarshalIndent(p, "  ", "    ")
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 		w.OutText <- output
 	}
